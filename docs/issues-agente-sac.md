@@ -1,7 +1,7 @@
 # Proyecto: Agente SAC
 
 **Descripción del proyecto (para Linear):**
-Agente de soporte con IA que reemplaza los niveles N1, N2 y N3 del servicio al cliente de una pyme con terminal de pagos. Todos los datos son ficticios. Stack: Python, LangGraph, LM Studio (modelo local) + Groq u OpenRouter (nube), SQLite, Chroma y la API GraphQL de Linear.
+Agente de soporte con IA que reemplaza los niveles N1, N2 y N3 del servicio al cliente de una pyme con terminal de pagos. Todos los datos son ficticios. Stack: Python, LangGraph, Ollama con qwen3:1.7b (modelo local) + Groq (nube), SQLite, Chroma y la API GraphQL de Linear.
 
 Objetivo: tener una demo de 30 segundos que muestre el agente resolviendo N1, N2, escalando un N3 a Linear y bloqueando un prompt injection.
 
@@ -33,15 +33,17 @@ _(completar al terminar)_
 ## Issue 2 — Modelo intercambiable: nube y local
 **Prioridad:** Urgente · **Tiempo estimado:** 45 min
 
-**Objetivo:** una sola función `get_llm()` que use Groq, OpenRouter o LM Studio según lo que diga el `.env`.
+**Objetivo:** una sola función `get_llm()` que use Groq (nube) o un modelo local según lo que diga el `.env`. El proveedor `local` sirve para Ollama (`qwen3:1.7b`) y para LM Studio. OpenRouter queda para más adelante: por ahora solo tiene sus variables en `.env.example`.
 
 **Conceptos:** APIs compatibles con OpenAI, URL base, IA local, elegir modelo por costo y privacidad.
 
 **Tareas:**
-- [ ] Instalar LM Studio y descargar Qwen3.5 4B (o Qwen3 4B)
-- [ ] Encender el servidor local de LM Studio
-- [ ] Probar los tres proveedores con el mismo prompt
+- [x] Instalar Ollama y descargar `qwen3:1.7b`
+- [x] Encender el servidor local de Ollama (`http://localhost:11434/v1`)
+- [ ] Limpiar las etiquetas `<think>` que devuelve qwen3
+- [ ] Probar Groq y el modelo local con el mismo prompt
 - [ ] Anotar el tiempo de respuesta de cada uno
+- [ ] README: explicar que LM Studio funciona igual cambiando `LOCAL_BASE_URL` al puerto 1234
 
 **Listo cuando:** cambiar `LLM_PROVIDER` en el `.env` cambia el modelo sin tocar el código.
 
